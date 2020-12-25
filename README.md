@@ -8,6 +8,8 @@ N/A (It's new still, chill!)
 - For DMs, this extends to generating NPCs and their channels (but not roles or nicknames)
 - Arctos also comes equipped with a new character creator to help players get off the ground quicker and into the game we all love
 - Arctos will (hopefully!) provide players with a filled form fillable .pdf of their character
+#### World generation
+- Arctos will be able to generate settlements on the fly, and I aim to be able to incorporate [@Watabou](https://github.com/watabou/)'s various settlement generators to include maps of these settlements
 #### Combat
 - Arctos will help guide newer players through the steps they can take, as well as having the functionality to roll for attacks
 - Arctos can help DMs by tracking enemy (and party) hitpoints
@@ -17,3 +19,5 @@ N/A (It's new still, chill!)
 - Arctos will be able to generate magical items
 #### Reminders
 - Arctos can ping everyone as a reminder just before the session
+#### Other
+- Arctos will be able to automatically roll to see whether certain events happen (such as a Sorcerer's wild surge, or coming across an Owlbear nest whilst exploring - factoring in features and traits that could make this more or less likely)
