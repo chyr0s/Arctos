@@ -7,14 +7,37 @@ __license__ = "GNU GPL v3"
 
 import discord
 import settings
-import commands.character as character
-import commands.combat as combat
-import commands.initial as initial
-import commands.npc as npc
-import commands.organisation as organisation
-import commands.world as world
-# from discord.ext.commands import Bot
+import random
+import asyncio
+import aiohttp
+import json
 
-# bot = Bot(command_prefix='.')
+
+from directives.character import Character as character
+from directives.combat import Combat as combat
+from directives.initial import Initial as initial
+from directives.items import Items as items
+from directives.npc import Npc as npc
+from directives.organisation import Organisation as organisation
+from directives.world import World as world
+from directives.general import General as general
+from discord.ext import commands
+
 token = settings.DISCORD_TOKEN
-client = discord.Client()
+bot = commands.Bot(command_prefix=(">","."))
+
+@bot.event
+async def on_ready():
+    print('We have logged in as {0.user}'.format(bot))
+
+@bot.command(name="pc",
+        description="Takes you through the steps to create your new character.",
+        brief="Creates a new player character.",
+        aliases=["newpc","createpc"])
+async def create_pc(context,arguments=None):
+    characterAPI = character(context.message.author)
+    if arguments == "-quick" or arguments == "-q":
+        characterAPI.random()
+        await context.channel.send(characterAPI.character_dict)
+
+bot.run(token)
