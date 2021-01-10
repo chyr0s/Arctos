@@ -6,13 +6,12 @@ __version__ = '0.0.1'
 __license__ = "GNU GPL v3"
 
 import discord
-import settings
 import random
 import asyncio
 import aiohttp
 import json
 
-
+import settings
 from directives.character import Character as character
 from directives.combat import Combat as combat
 from directives.initial import Initial as initial
@@ -23,7 +22,7 @@ from directives.world import World as world
 from directives.general import General as general
 from discord.ext import commands
 
-token = settings.DISCORD_TOKEN
+disc_token = settings.DISCORD_TOKEN
 bot = commands.Bot(command_prefix=(">","."))
 
 @bot.event
@@ -38,6 +37,14 @@ async def create_pc(context,arguments=None):
     characterAPI = character(context.message.author)
     if arguments == "-quick" or arguments == "-q":
         characterAPI.random()
-        await context.channel.send(characterAPI.character_dict)
+    character_details = characterAPI.character_dict
+    character_embed=discord.Embed(title=character_details["Name"], description=(character_details["Race"] + " " + character_details["Class"]))
+    character_embed.add_field(name="Strength", value=character_details["Stats"]["strength"], inline=True)
+    character_embed.add_field(name="Charisma", value=character_details["Stats"]["charisma"], inline=True)
+    character_embed.add_field(name="Constitution", value=character_details["Stats"]["constitution"], inline=True)
+    character_embed.add_field(name="Wisdom", value=character_details["Stats"]["wisdom"], inline=True)
+    character_embed.add_field(name="Intelligence", value=character_details["Stats"]["intelligence"], inline=True)
+    character_embed.add_field(name="Dexterity", value=character_details["Stats"]["dexterity"], inline=True)
+    await context.send(embed=character_embed)
 
-bot.run(token)
+bot.run(disc_token)

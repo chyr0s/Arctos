@@ -2,13 +2,31 @@ import time
 import json
 import random
 import os
+import requests
+
+import settings
+
 
 class Character:
     race_dict = json.load(open("loads/race_dict.json"))
     race_list = list(race_dict)
     profession_dict = json.load(open("loads/profession_dict.json"))
     profession_list = list(profession_dict)
-
+    btn_token = settings.BTN_TOKEN
+    name_dict = {"dwarva":["cela","celm","iri"],
+            "forged":["cor","eng","enga","jer","medi","wel"],
+            "ghena":["bel","est"],
+            "human":["gre","grea","grem"],
+            "kirku":["geo","kaz","kyr"],
+            "oread":["crs","ita","roma","romm","sar","sic"],
+            "ravodit":["ava","bsh","che","cir","ing","oss","rus","tat"],
+            "semayawi":["anci","astr","bibl","heb","theo"],
+            "serin":["aze","kur","per"],
+            "vadasj":["amh","eth","oro"],
+            "vekiri":["ara","tur"],
+            "volyri":["bre","fre","nrm","pcd","tah"],
+            "wulfe":["dut","ger","gmca","lim","sax","sor"],
+            "yuan":["chi","jap","kor","uyg"]}
 
     def __init__(self,owner,seed=None,character_dict=None):
         self.owner = owner
@@ -20,7 +38,15 @@ class Character:
         profession = list(self.profession_dict.keys())[profession_seed]
         race_seed = random.randint(0,len(self.race_list)-1)
         race = list(self.race_dict.keys())[race_seed]
+        region_list = self.name_dict[race]
+        region_pos = random.randint(1,len(region_list)-1)
+        region = region_list[region_pos]
+        api_call = requests.get(f"https://www.behindthename.com/api/random.json?usage={region}&randomsurname=yes&key={self.btn_token}")
         stats_dict = {}
+        name = api_call.json()["names"]
+        firstname = name[0]
+        surname = name[1]
+        self.writeback("Name",f"{firstname} {surname}")
         attributes = ["strength","wisdom","charisma","dexterity","constitution","intelligence"]
         while attributes:
             for attribute in attributes:
