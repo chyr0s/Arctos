@@ -17,7 +17,7 @@ class Character:
     btn_token = settings.BTN_TOKEN
     name_dict = {
         "dwarva":["cela","celm","iri"],
-        "forged":["cor","eng","enga","jer","medi","wel"],
+        "forged":["cor","eng","enga","jer","wel"],
         "ghena":["bel","est"],
         "human":["gre","grea","grem"],
         "kirku":["geo","kaz","kyr"],
@@ -86,10 +86,11 @@ class Character:
         attributes = ["strength","wisdom","charisma","dexterity","constitution","intelligence"]
         while attributes:
             for attribute in attributes:
-                die_result_1 = self.die_roll(attribute,1)
-                die_result_2 = self.die_roll(attribute,2)
-                die_result_3 = self.die_roll(attribute,3)
-                die_result_4 = self.die_roll(attribute,4)
+                die_results = self.die_roll(4,6,attribute,1)
+                die_result_1 = die_results[0]
+                die_result_2 = die_results[1]
+                die_result_3 = die_results[2]
+                die_result_4 = die_results[3]
                 stat_array = [die_result_1,die_result_2,die_result_3,die_result_4]
                 del stat_array[stat_array.index(min(stat_array))]
                 final_stat = sum(stat_array)
@@ -98,11 +99,17 @@ class Character:
         else:
             self.writeback("Stats",stats_dict)
 
-    def die_roll(self,attribute,index):
+    def die_roll(self,num,len,attribute,index):
         seed = self.seed + attribute + str(index)
         random.seed(seed)
-        die_result = random.randint(1,6)
-        return die_result
+        rolls_left = num
+        die_results = []
+        while rolls_left > 0:
+            result = random.randint(1,len)
+            die_results.append(result)
+            rolls_left -= 1
+        else:
+            return die_results
 
     def build(self):
         return("It's not borked, but it will build!")
