@@ -21,7 +21,7 @@ class Character:
         "ghena":["bel","est"],
         "human":["gre","grea","grem"],
         "kirku":["geo","kaz","kyr"],
-        "oread":["crs","ita","roma","romm","sar","sic"],
+        "oread":["crs","ita","roma","ro `mm","sar","sic"],
         "ravodit":["ava","bsh","che","cir","ing","oss","rus","tat"],
         "semayawi":["anci","astr","heb","theo"],
         "serin":["aze","kur","per"],
@@ -98,6 +98,22 @@ class Character:
                 attributes.remove(attribute)
         else:
             self.writeback("Stats",stats_dict)
+
+    def merchant(self):
+        language_list = ["Common"]
+        self.writeback("Class","merchant")
+        race_seed = random.randint(0,len(self.race_list)-1)
+        race = list(self.race_dict.keys())[race_seed]
+        self.writeback("Race",race)
+        region_list = self.name_dict[race]
+        region_pos = random.randint(1,len(region_list)-1)
+        region = region_list[region_pos]
+        api_call = requests.get(f"https://www.behindthename.com/api/random.json?usage={region}&randomsurname=yes&key={self.btn_token}")
+        name = api_call.json()["names"]
+        firstname = name[0]
+        surname = name[1]
+        self.writeback("Name",f"{firstname} {surname}")
+        
 
     def die_roll(self,num,len,attribute,index):
         seed = self.seed + attribute + str(index)
