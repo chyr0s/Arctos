@@ -55,7 +55,10 @@ class Character:
         api_call = requests.get(f"https://www.behindthename.com/api/random.json?usage={region}&randomsurname=yes&key={self.btn_token}")
         name = api_call.json()["names"]
         firstname = name[0]
-        surname = name[1]
+        try:
+            surname = name[1]
+        except:
+            surname = ""
         self.writeback("Name",f"{firstname} {surname}")
         # BACKGROUND
         background_seed = random.randint(0,len(self.background_list)-1)
@@ -86,12 +89,8 @@ class Character:
         attributes = ["strength","wisdom","charisma","dexterity","constitution","intelligence"]
         while attributes:
             for attribute in attributes:
-                die_results = self.die_roll(4,6,attribute,1)
-                die_result_1 = die_results[0]
-                die_result_2 = die_results[1]
-                die_result_3 = die_results[2]
-                die_result_4 = die_results[3]
-                stat_array = [die_result_1,die_result_2,die_result_3,die_result_4]
+                die_results = self.die_roll(6,1,attribute,4)
+                stat_array = list(die_results)
                 del stat_array[stat_array.index(min(stat_array))]
                 final_stat = sum(stat_array)
                 stats_dict[attribute] = final_stat
@@ -115,7 +114,7 @@ class Character:
         self.writeback("Name",f"{firstname} {surname}")
         
 
-    def die_roll(self,num,len,attribute,index):
+    def die_roll(self,len,index,attribute = "",num=1):
         seed = self.seed + attribute + str(index)
         random.seed(seed)
         rolls_left = num
