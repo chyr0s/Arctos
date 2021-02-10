@@ -39,6 +39,7 @@ async def create_pc(context,arguments=None):
     character_details = characterAPI.character_dict
     colour_dict = {"artificer":12040119,"barbarian":5912868,"bard":4176082,"cleric":15462847,"druid":3315769,"fighter":7745327,"monk":5464725,"paladin":16777215,"ranger":4994608,"rogue":4526353,"sorcerer":5451621,"warlock":7738454,"wizard":8084443}
     character_embed=discord.Embed(title=character_details["Name"], description=(character_details["Race"] + " " + character_details["Class"] + ", ex-" + character_details["Background"] + "\nSkills: " + character_details["Skills"]), colour=discord.Colour(colour_dict[character_details["Class"]]))
+    character_embed.set_footer(text="UID: " + str(character_details["UID"]))
     character_embed.add_field(name="Strength", value=character_details["Stats"]["strength"], inline=True)
     character_embed.add_field(name="Dexterity", value=character_details["Stats"]["dexterity"], inline=True)
     character_embed.add_field(name="Constitution", value=character_details["Stats"]["constitution"], inline=True)
@@ -58,7 +59,7 @@ async def create_npc(context,arguments=None):
         characterAPI.merchant()
     character_details = characterAPI.character_dict
     colour_dict = {"artificer":12040119,"barbarian":5912868,"bard":4176082,"cleric":15462847,"druid":3315769,"fighter":7745327,"monk":5464725,"paladin":16777215,"ranger":4994608,"rogue":4526353,"sorcerer":5451621,"warlock":7738454,"wizard":8084443,"merchant":16072447}
-    character_embed=discord.Embed(title=character_details["Name"], description=(character_details["Race"] + " " + character_details["Class"] + "\nSkills: " + character_details["Skills"]), colour=discord.Colour(colour_dict[character_details["Class"]]))
+    character_embed=discord.Embed(description=(character_details["Race"] + " " + character_details["Class"] + "\nSkills: " + character_details["Skills"]), colour=discord.Colour(colour_dict[character_details["Class"]]))   
     character_embed.add_field(name="Strength", value=character_details["Stats"]["strength"], inline=True)
     character_embed.add_field(name="Dexterity", value=character_details["Stats"]["dexterity"], inline=True)
     character_embed.add_field(name="Constitution", value=character_details["Stats"]["constitution"], inline=True)

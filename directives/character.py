@@ -97,6 +97,11 @@ class Character:
                 attributes.remove(attribute)
         else:
             self.writeback("Stats",stats_dict)
+        #uniqueID
+        seed1 = random.randint(1,1000)
+        udr = str(self.die_roll(1000,seed1))
+        uh = str(hash(udr))[:6]
+        self.writeback("UID",abs(int(uh)))
 
     def merchant(self):
         language_list = ["Common"]
